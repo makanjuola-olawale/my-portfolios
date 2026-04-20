@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makanjuola Olawale - Interactive CV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- CSS Variables for Easy Theming --- */
+        :root {
+            --primary-color: #0f172a;
+            --secondary-color: #334155;
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent-color: #0284c7;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* --- Global Reset & Typography --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2.5fr;
+            gap: 2rem;
+        }
+
+        /* --- Left Column: Profile & Info --- */
+        .sidebar {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .sidebar h1 {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .contact-info li {
+            list-style: none;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+
+        .contact-info i {
+            color: var(--accent-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* --- Right Column: Main Content --- */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        section {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- Data Visualization: Skill Bars --- */
+        .skill-item {
+            margin-bottom: 1.2rem;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .skill-track {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            border-radius: 4px;
+            transform-origin: left;
+            animation: fillBar 1.5s ease-out forwards;
+        }
+
+        @keyframes fillBar {
+            from {
+                transform: scaleX(0);
+            }
+
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tags span {
+            background: var(--bg-color);
+            color: var(--secondary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* --- Interactive Timeline: Experience --- */
+        .timeline {
+            border-left: 2px solid #e2e8f0;
+            padding-left: 20px;
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: 3px solid var(--surface-color);
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            background: #e0f2fe;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: var(--primary-color);
+        }
+
+        .timeline-company {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .timeline-item ul {
+            padding-left: 1rem;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .timeline-item li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Collapsible Sections (Native HTML) --- */
+        details {
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+
+        details:hover {
+            border-color: var(--accent-color);
+        }
+
+        summary {
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            outline: none;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .details-content {
+            color: var(--text-muted);
+            padding-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .details-content ul {
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <div class="profile-img">
+                <i class="fa-solid fa-server"></i>
+            </div>
+            <h1>MAKANJUOLA OLAWALE</h1>
+            <h2>IT Infrastructure Engineer</h2>
+
+            <ul class="contact-info">
+                <li><i class="fa-solid fa-phone"></i> +234 818 367 6004</li>
+                <li><i class="fa-solid fa-envelope"></i> holamakanjuola@gmail.com</li>
+                <li><i class="fa-solid fa-location-dot"></i> Apo, Abuja, Nigeria 100204</li>
+                <li><i class="fa-brands fa-linkedin"></i> makanjuola-olawale</li>
+            </ul>
+
+            <div style="margin-top: 2.5rem;">
+                <h3 class="section-title" style="font-size: 1.1rem; border-bottom: none;"><i
+                        class="fa-solid fa-chart-pie"></i> Core Competencies</h3>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Linux/Windows Admin</span>
+                        <span>Expert</span>
+                    </div>
+                    <div class="skill-track">
+                        <div class="skill-fill" style="width: 95%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Observability (Prometheus/Grafana)</span>
+                        <span>Advanced</span>
+                    </div>
+                    <div class="skill-track">
+                        <div class="skill-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Database Admin (SQL)</span>
+                        <span>Advanced</span>
+                    </div>
+                    <div class="skill-track">
+                        <div class="skill-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Automation (Bash/Python/PS)</span>
+                        <span>Advanced</span>
+                    </div>
+                    <div class="skill-track">
+                        <div class="skill-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Orchestration (K8s/Docker)</span>
+                        <span>Intermediate</span>
+                    </div>
+                    <div class="skill-track">
+                        <div class="skill-fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h3 class="section-title" style="font-size: 1.1rem; border-bottom: none;"><i
+                        class="fa-solid fa-microchip"></i> Technologies</h3>
+                <div class="skill-tags">
+                    <span>PostgreSQL</span>
+                    <span>MySQL</span>
+                    <span>Kubernetes</span>
+                    <span>Docker</span>
+                    <span>VMware / Hyper-V</span>
+                    <span>LAN/WAN / VPN</span>
+                    <span>Zabbix</span>
+                    <span>Active Directory</span>
+                    <span>SSL/TLS</span>
+                    <span>Wazuh SIEM</span>
+                    <span>AWS / Azure</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-user-shield"></i> Professional Summary</h2>
+                <p style="color: var(--secondary-color); font-size: 0.95rem;">
+                    IT Infrastructure Engineer with 4+ years of experience in Linux/Windows systems, Kubernetes, Docker,
+                    and cloud-agnostic deployments. Skilled in database administration (PostgreSQL, MySQL),
+                    observability (Prometheus, Grafana, Zabbix), and automation (Bash, Python, PowerShell). Proven
+                    record of optimizing performance, ensuring high availability, and driving secure, scalable
+                    infrastructure solutions.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-briefcase"></i> Professional Experience</h2>
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jun 2022 - Present</div>
+                        <h3 class="timeline-title">IT Infrastructure Engineer | System & Network Administrator</h3>
+                        <div class="timeline-company">Hardcore Biometric Systems Limited</div>
+                        <ul>
+                            <li>Designed and deployed enterprise monitoring systems with Prometheus, Grafana, and
+                                Zabbix, reducing downtime by 35% and improving performance visibility.</li>
+                            <li>Administered PostgreSQL and MySQL databases, implementing backup strategies and tuning
+                                queries to improve transaction speeds by 20%.</li>
+                            <li>Migrated services from VMs to Docker/Kubernetes clusters, ensuring seamless transitions
+                                with zero downtime.</li>
+                            <li>Automated infrastructure workflows with Bash and PowerShell, cutting ticket resolution
+                                time by 30%.</li>
+                            <li>Implemented firewall policies and SSL/TLS encryption, eliminating key attack vectors and
+                                strengthening compliance.</li>
+                            <li>Authored 30+ technical knowledge base articles, improving IT documentation and reducing
+                                repetitive support requests by 20%.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jun 2015 - Feb 2016</div>
+                        <h3 class="timeline-title">Technical Specialist</h3>
+                        <div class="timeline-company">Bosatec</div>
+                        <ul>
+                            <li>Provided end-user support for hardware, software, and network systems, ensuring smooth
+                                daily operations in a fast-paced environment.</li>
+                            <li>Troubleshot and resolved complex infrastructure failures across Windows systems,
+                                contributing to a 35% reduction in system downtime.</li>
+                            <li>Authored and maintained 50+ technical documents on system configurations, creating a
+                                knowledge base that reduced time-to-resolution for common IT support requests by 25%.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title"><i class="fa-solid fa-laptop-code"></i> Projects & Initiatives</h2>
+
+                <details>
+                    <summary>Self-Hosted Help Desk & Asset Request Portal</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li>Built an osTicket-based help desk on a hardened LAMP stack, centralizing issue tracking
+                                and asset management for 200+ devices, resulting in a 50% reduction in ticket resolution
+                                time.</li>
+                            <li>Secured web server infrastructure using Let's Encrypt SSL/TLS and hardened
+                                configurations, achieving full compliance with internal security standards.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Windows Process Monitoring Automation</summary>
+                    <div class="details-content">
+                        <ul>
+                            <li>Built an osTicket-based help desk on a hardened LAMP stack, centralizing issue tracking
+                                and asset management for 200+ devices, resulting in a 50% reduction in ticket resolution
+                                time.</li>
+                            <li>Secured web server infrastructure using Let's Encrypt SSL/TLS and hardened
+                                configurations, achieving full compliance with internal security standards.</li>
+                        </ul>
